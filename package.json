@@ -1,11 +1,12 @@
 {
   "name": "breizhsport-backend",
-  "version": "1.0.0",
-  "main": "src/index.js",
+  "private": true,
+  "type": "module",
   "dependencies": {
     "express": "^4.21.1",
     "pg": "^8.13.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
-  
 }
