@@ -1,30 +1,44 @@
 import express from 'express';
 import User from './models/User.js'; // Importer le modèle
+import Product from './models/Product.js'
+import Stock from './models/Stock.js'
+import Shop from './models/Shop.js'
+import Cart from './models/Cart.js'
 import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { Sequelize } from 'sequelize';
 
 import { API_VERSION } from './../version.js'
-
-const DB_LOCATION = 'postgres' // Nom du service associé dans le fichier docker-compose
-const DB_NAME = 'breizhsport'
-const DB_USER = 'breizhsport'
-const DB_PASSWORD = "breizhsport"
-const DB_PORT = 5432
-
+const API_PORT = 3001;
 
 const app = express();
-const port = 3001;
+const port = API_PORT;
+
+try {
+  await sequelize.authenticate();
+  console.log('Connection to postgres has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 // Synchroniser la base de données
-sequelize.sync({ force: false }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
+sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
   .then(() => {
     console.log('La base de données a été synchronisée.');
   })
   .catch(err => {
     console.error('Erreur de synchronisation de la base de données:', err);
   });
+
+
+// Middleware pour analyser le JSON
+app.use(express.json());
+
+// Middleware pour ajouter le numéro de version de l'API dans le header des réponses
+app.use((_, res, next) => {
+  res.setHeader('x-api-version', API_VERSION);
+  next()
+});
 
 // Exemple de route d'API
 app.get('/api/users', async (req, res) => {
