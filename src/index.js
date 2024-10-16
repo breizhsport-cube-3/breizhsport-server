@@ -2,8 +2,25 @@ import express from 'express';
 import pkg from 'pg';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import { Sequelize } from 'sequelize';
+
+const DB_LOCATION = 'postgres' // Nom du service associé dans le fichier docker-compose
+const DB_NAME = 'breizhsport'
+const DB_USER = 'breizhsport'
+const DB_PASSWORD = "breizhsport"
+const DB_PORT = 5432
 
 const { Pool } = pkg;  // Extraire Pool de l'objet pg
+
+// Création de l'instance sequalize
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_LOCATION}:${DB_PORT}/${DB_NAME}`)
+
+try {
+  await sequelize.authenticate();
+  console.log('Connection to postgres has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 // Créer l'application Express
 const app = express();
