@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: breizhsport-pg
+    container_name: breizhsport-database
     environment:
       POSTGRES_USER: breizhsport
       POSTGRES_PASSWORD: breizhsport
@@ -13,7 +13,7 @@ services:
 
   express:
     build: .
-    container_name: breizhsport-express
+    container_name: breizhsport-api
     working_dir: /app
     volumes:
       - .:/app
