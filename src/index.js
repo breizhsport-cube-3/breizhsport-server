@@ -4,7 +4,7 @@ import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const SECRET_KEY = 'your-secret-key';
 
 import { API_VERSION } from './../version.js'
