@@ -5,7 +5,9 @@
   "dependencies": {
     "express": "^4.21.1",
     "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
     "prettier": "^3.3.3",
+    "sequelize": "^6.37.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
