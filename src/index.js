@@ -1,9 +1,5 @@
 import express from 'express';
-import User from './models/User.js'; // Importer le modèle
-import Product from './models/Product.js'
-import Stock from './models/Stock.js'
-import Shop from './models/Shop.js'
-import Cart from './models/Cart.js'
+import entities from './models/Entities.js'; // Importer les modèles
 import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
@@ -43,7 +39,7 @@ app.use((_, res, next) => {
 // Exemple de route d'API
 app.get('/api/users', async (req, res) => {
   try {
-    const users = await User.findAll(); // Utilisation de Sequelize pour récupérer les utilisateurs
+    const users = await entities.User.findAll(); // Utilisation de Sequelize pour récupérer les utilisateurs
     res.json(users);
   } catch (error) {
     console.error('Erreur lors de la requête', error);

@@ -18,7 +18,7 @@ const Address = sequelize.define('Address', {
     allowNull: false,
   },
   number: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   street: {

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import Address from './Address.js';
 
 // Définir un modèle Shop
 const Shop = sequelize.define('Shop', {
@@ -20,6 +21,10 @@ const Shop = sequelize.define('Shop', {
   id_address: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Address,
+      key: 'id',
+    },
   }
 });
 

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import User from './User.js';
 
 // Définir un modèle Card
 const Card = sequelize.define('Card', {
@@ -14,7 +15,7 @@ const Card = sequelize.define('Card', {
     allowNull: false,
   },
   cvv: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   exp_date: {
@@ -24,6 +25,10 @@ const Card = sequelize.define('Card', {
   id_user: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
   }
 });
 

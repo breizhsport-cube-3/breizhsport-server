@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import Group from './Group.js';
+import Address from './Address.js';
 
 // Définir un modèle User
 const User = sequelize.define('User', {
@@ -48,10 +50,18 @@ const User = sequelize.define('User', {
   id_group: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Group,
+      key: 'id',
+    },
   },
   id_address: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Address,
+      key: 'id',
+    },
   }
 });
 

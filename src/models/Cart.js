@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import User from './User.js'
 
 // Définir un modèle Cart
 const Cart = sequelize.define('Cart', {
@@ -16,6 +17,10 @@ const Cart = sequelize.define('Cart', {
   id_user: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
   }
 });
 
