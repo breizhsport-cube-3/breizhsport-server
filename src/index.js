@@ -1,22 +1,14 @@
 import express from 'express';
-import pkg from 'pg';
+import entities from './models/Entities.js'; // Importer les modèles
+import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { Sequelize } from 'sequelize';
 
 import { API_VERSION } from './../version.js'
+const API_PORT = 3001;
 
-const DB_LOCATION = 'postgres' // Nom du service associé dans le fichier docker-compose
-const DB_NAME = 'breizhsport'
-const DB_USER = 'breizhsport'
-const DB_PASSWORD = "breizhsport"
-const DB_PORT = 5432
-
-
-const { Pool } = pkg;  // Extraire Pool de l'objet pg
-
-// Création de l'instance sequalize
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_LOCATION}:${DB_PORT}/${DB_NAME}`)
+const app = express();
+const port = API_PORT;
 
 try {
   await sequelize.authenticate();
@@ -25,18 +17,15 @@ try {
   console.error('Unable to connect to the database:', error);
 }
 
-// Créer l'application Express
-const app = express();
-const port = 3001;
+// Synchroniser la base de données
+sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
+  .then(() => {
+    console.log('La base de données a été synchronisée.');
+  })
+  .catch(err => {
+    console.error('Erreur de synchronisation de la base de données:', err);
+  });
 
-// Configurer PostgreSQL avec une pool de connexions
-const pool = new Pool({
-  user: 'breizhsport',
-  host: 'postgres',
-  database: 'breizhsport',
-  password: 'breizhsport',
-  port: 5432,
-});
 
 // Middleware pour analyser le JSON
 app.use(express.json());
@@ -45,6 +34,17 @@ app.use(express.json());
 app.use((_, res, next) => {
   res.setHeader('x-api-version', API_VERSION);
   next()
+});
+
+// Exemple de route d'API
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await entities.User.findAll(); // Utilisation de Sequelize pour récupérer les utilisateurs
+    res.json(users);
+  } catch (error) {
+    console.error('Erreur lors de la requête', error);
+    res.status(500).json({ error: 'Erreur de serveur' });
+  }
 });
 
 // Configuration de Swagger
@@ -73,18 +73,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Exemple de route d'API
-app.get('/api/users', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
-  } catch (error) {
-    console.error('Erreur lors de la requête', error);
-    res.status(500).json({ error: 'Erreur de serveur' });
-  }
-});
-
-// Lancer le serveur Express
+// Démarrer le serveur Express
 app.listen(port, () => {
   console.log(`Serveur Express démarré sur http://localhost:${port}`);
   console.log(`Swagger disponible sur http://localhost:${port}/api-docs`);
