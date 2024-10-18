@@ -4,6 +4,9 @@ import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import jwt from 'jsonwebtoken';
+const SECRET_KEY = 'your-secret-key';
+
 import { API_VERSION } from './../version.js'
 const API_PORT = 3001;
 
@@ -34,6 +37,37 @@ app.use(express.json());
 app.use((_, res, next) => {
   res.setHeader('x-api-version', API_VERSION);
   next()
+});
+
+app.post('/login', (req, res) => {
+  // For simplicity, assuming the user credentials are passed in request body
+  const { username, password } = req.body;
+
+  // Validate user credentials here (e.g., check username and password against a database)
+  if (username === 'admin' && password === 'password') {
+      // Generate JWT token upon successful authentication
+      const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
+      return res.json({ token });
+  } else {
+      return res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Extract Bearer token
+
+  if (token == null) return res.sendStatus(401); // No token
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+      if (err) return res.sendStatus(403); // Invalid token
+      req.user = user; // Attach user data to request object
+      next();
+  });
+};
+
+app.get('/protected', authenticateToken, (req, res) => {
+  res.json({ message: `Hello ${req.user.username}, you have access to this route.` });
 });
 
 // Exemple de route d'API
