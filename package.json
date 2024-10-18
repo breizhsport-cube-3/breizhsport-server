@@ -2,9 +2,6 @@
   "name": "breizhsport-backend",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build" : "node src/index.js"
-  },
   "dependencies": {
     "express": "^4.21.1",
     "pg": "^8.13.0",
