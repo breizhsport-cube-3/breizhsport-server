@@ -4,7 +4,7 @@ import Group from './Group.js';
 import Permission from './Permission.js';
 
 // Définir un modèle Group_Permission
-const Group_Permission = sequelize.define('Group_Permission', {
+const GroupPermission = sequelize.define('GroupPermission', {
   // Définir les colonnes de la table
   id_group: {
     type: DataTypes.INTEGER,
@@ -27,4 +27,4 @@ const Group_Permission = sequelize.define('Group_Permission', {
 });
 
 // Exporter le modèle Group_Permission comme export par défaut
-export default Group_Permission;
+export default GroupPermission;

@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 import Product from './Product.js';
-import Image from './Image.js';
+import Order from './Order.js';
 
-// Définir un modèle Product_Image
-const Product_Image = sequelize.define('Product_Image', {
+// Définir un modèle Order_Item
+const OrderItem = sequelize.define('OrderItem', {
   // Définir les colonnes de la table
   id_product: {
     type: DataTypes.INTEGER,
@@ -15,16 +15,20 @@ const Product_Image = sequelize.define('Product_Image', {
       key: 'id',
     },
   },
-  id_image: {
+  id_order: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     references: {
-      model: Image,
+      model: Order,
       key: 'id',
     },
+  },
+  price: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
   }
 });
 
-// Exporter le modèle Product_Image comme export par défaut
-export default Product_Image;
+// Exporter le modèle Order_Item comme export par défaut
+export default OrderItem;
