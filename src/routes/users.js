@@ -1,3 +1,5 @@
+import { validateToken } from './login.js'
+
 /**
  * @swagger
  * /api/users:

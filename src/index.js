@@ -1,17 +1,12 @@
 import express from 'express';
-import entities from './models/Entities.js'; // Importer les modèles
 import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-
-import jwt from 'jsonwebtoken';
-const SECRET_KEY = 'your-secret-key';
-
-import { API_VERSION } from './../version.js'
-const API_PORT = 3001;
+import { API_VERSION } from './../version.js';
+import { PORT } from './env.js';
+import loginRoutes from './routes/login.js';
 
 const app = express();
-const port = API_PORT;
 
 try {
   await sequelize.authenticate();
@@ -21,14 +16,13 @@ try {
 }
 
 // Synchroniser la base de données
-sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
+sequelize.sync({ force: false }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
   .then(() => {
     console.log('La base de données a été synchronisée.');
   })
   .catch(err => {
     console.error('Erreur de synchronisation de la base de données:', err);
   });
-
 
 // Middleware pour analyser le JSON
 app.use(express.json());
@@ -39,47 +33,11 @@ app.use((_, res, next) => {
   next()
 });
 
-app.post('/login', (req, res) => {
-  // For simplicity, assuming the user credentials are passed in request body
-  const { username, password } = req.body;
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
-  // Validate user credentials here (e.g., check username and password against a database)
-  if (username === 'admin' && password === 'password') {
-      // Generate JWT token upon successful authentication
-      const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
-      return res.json({ token });
-  } else {
-      return res.status(401).json({ message: 'Invalid credentials' });
-  }
-});
-
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Extract Bearer token
-
-  if (token == null) return res.sendStatus(401); // No token
-
-  jwt.verify(token, SECRET_KEY, (err, user) => {
-      if (err) return res.sendStatus(403); // Invalid token
-      req.user = user; // Attach user data to request object
-      next();
-  });
-};
-
-app.get('/protected', authenticateToken, (req, res) => {
-  res.json({ message: `Hello ${req.user.username}, you have access to this route.` });
-});
-
-// Exemple de route d'API
-app.get('/api/users', async (req, res) => {
-  try {
-    const users = await entities.User.findAll(); // Utilisation de Sequelize pour récupérer les utilisateurs
-    res.json(users);
-  } catch (error) {
-    console.error('Erreur lors de la requête', error);
-    res.status(500).json({ error: 'Erreur de serveur' });
-  }
-});
+app.use('/api/login', loginRoutes);
 
 // Configuration de Swagger
 const swaggerOptions = {
@@ -95,10 +53,24 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: `http://localhost:${port}`,
+          url: `http://localhost:${PORT}`,
         },
       ],
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./src/routes/*.js'], // Spécifiez où Swagger doit chercher les annotations
 };
@@ -108,7 +80,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Démarrer le serveur Express
-app.listen(port, () => {
-  console.log(`Serveur Express démarré sur http://localhost:${port}`);
-  console.log(`Swagger disponible sur http://localhost:${port}/api-docs`);
+app.listen(PORT, () => {
+  console.log(`Serveur Express démarré sur http://localhost:${PORT}`);
+  console.log(`Swagger disponible sur http://localhost:${PORT}/api-docs`);
 });
