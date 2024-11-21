@@ -13,21 +13,21 @@ const API_PORT = 3001;
 const app = express();
 const port = API_PORT;
 
-try {
+/*try {
   await sequelize.authenticate();
   console.log('Connection to postgres has been established successfully.');
 } catch (error) {
   console.error('Unable to connect to the database:', error);
-}
+}*/
 
 // Synchroniser la base de données
-sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
+/*sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
   .then(() => {
     console.log('La base de données a été synchronisée.');
   })
   .catch(err => {
     console.error('Erreur de synchronisation de la base de données:', err);
-  });
+  });*/
 
 
 // Middleware pour analyser le JSON
