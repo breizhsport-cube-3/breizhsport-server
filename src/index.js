@@ -81,6 +81,10 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+app.get("/test", (req, res) => {
+  res.send("Hello World! Your API is deployed and working!");
+});
+
 // Configuration de Swagger
 const swaggerOptions = {
   swaggerDefinition: {
