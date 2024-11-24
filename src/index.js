@@ -81,6 +81,32 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+/ Exemple de route d'API pour créer un utilisateur
+app.post('/api/users', async (req, res) => {
+  try {
+    const { firstname, lastname } = req.body;  // Extraction des données du body de la requête
+
+    // Vérification que les données sont présentes
+    if (!firstname || !lastname) {
+      return res.status(400).json({ error: 'Le prénom et le nom sont requis.' });
+    }
+
+    // Création de l'utilisateur dans la base de données
+    const newUser = await entities.User.create({
+      firstname,
+      lastname,
+      createdAt: new Date(),  // On peut ajouter une valeur de timestamp pour createdAt
+      updatedAt: new Date()   // On peut ajouter une valeur de timestamp pour updatedAt
+    });
+
+    // Réponse avec l'utilisateur créé
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error('Erreur lors de la création de l\'utilisateur', error);
+    res.status(500).json({ error: 'Erreur de serveur lors de la création de l\'utilisateur.' });
+  }
+});
+
 app.get("/test", (req, res) => {
   res.send("Hello World! Your API is deployed and working!");
 });
