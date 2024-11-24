@@ -81,7 +81,7 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
-/ Exemple de route d'API pour créer un utilisateur
+// Exemple de route d'API pour créer un utilisateur
 app.post('/api/users', async (req, res) => {
   try {
     const { firstname, lastname } = req.body;  // Extraction des données du body de la requête
