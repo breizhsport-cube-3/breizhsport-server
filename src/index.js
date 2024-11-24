@@ -8,10 +8,9 @@ import jwt from 'jsonwebtoken';
 const SECRET_KEY = 'your-secret-key';
 
 import { API_VERSION } from './../version.js'
-const API_PORT = 3001;
+const API_PORT = process.env.API_PORT;
 
 const app = express();
-const port = API_PORT;
 
 try {
   await sequelize.authenticate();
@@ -125,7 +124,7 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: `http://localhost:${port}`,
+          url: `http://localhost:${API_PORT}`,
         },
       ],
     },
@@ -138,7 +137,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Démarrer le serveur Express
-app.listen(port, () => {
-  console.log(`Serveur Express démarré sur http://localhost:${port}`);
-  console.log(`Swagger disponible sur http://localhost:${port}/api-docs`);
+app.listen(API_PORT, () => {
+  console.log(`Serveur Express démarré sur http://localhost:${API_PORT}`);
+  console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
 });
