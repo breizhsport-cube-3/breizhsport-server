@@ -21,13 +21,13 @@ try {
 }
 
 // Synchroniser la base de données
-/*sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
+sequelize.sync({ force: true }) // force: true pour recréer les tables à chaque démarrage (à éviter en production)
   .then(() => {
     console.log('La base de données a été synchronisée.');
   })
   .catch(err => {
     console.error('Erreur de synchronisation de la base de données:', err);
-  });*/
+  });
 
 
 // Middleware pour analyser le JSON
