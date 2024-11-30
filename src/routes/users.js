@@ -1,10 +1,10 @@
+const ALL_USER = '/api/users'
+const USER_BY_ID = '/api/users/{id}'
+
 export const USER_ENDPOINT = [
   `GET : ${ALL_USER}`, 
   `GET : ${USER_BY_ID}`
 ]
-
-const ALL_USER = '/api/users'
-const USER_BY_ID = '/api/users/{id}'
 /**
  * @swagger
  * /api/users:
