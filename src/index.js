@@ -3,6 +3,7 @@ import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { API_VERSION } from './../version.js'
+import { USER_ENDPOINT } from './routes/users.js'
 import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = 'your-secret-key';
@@ -76,4 +77,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.listen(API_PORT, () => {
   console.log(`Serveur Express démarré sur http://localhost:${API_PORT}`);
   console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
+  console.log(`Version de l'API déployé : ${API_VERSION}`);
+  console.log(`Endpoints de l'API : `, USER_ENDPOINT)
 });

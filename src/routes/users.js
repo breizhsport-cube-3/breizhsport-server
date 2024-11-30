@@ -1,3 +1,10 @@
+export const USER_ENDPOINT = [
+  `GET : ${ALL_USER}`, 
+  `GET : ${USER_BY_ID}`
+]
+
+const ALL_USER = '/api/users'
+const USER_BY_ID = '/api/users/{id}'
 /**
  * @swagger
  * /api/users:
@@ -21,7 +28,7 @@
  *       500:
  *         description: Erreur serveur
  */
-app.get('/api/users', async (req, res) => {
+app.get(ALL_USER, async (req, res) => {
     try {
       const result = await pool.query('SELECT * FROM users');
       res.json(result.rows);
@@ -54,7 +61,7 @@ app.get('/api/users', async (req, res) => {
  *       500:
  *         description: Erreur serveur
  */
-app.get('/api/users/{id}', async (req, res) => {
+app.get(USER_BY_ID, async (req, res) => {
   try {
     const id = parseInt(req.params.id); // Récupérer l'ID à partir des paramètres de l'URL
       res.status(200).json({ result: 'Test : ' + id });
