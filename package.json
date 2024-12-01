@@ -11,5 +11,8 @@
     "sequelize": "^6.37.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "scripts": {
+    "build": "node src/index.js"
   }
 }
