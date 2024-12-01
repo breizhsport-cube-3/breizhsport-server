@@ -2,8 +2,8 @@ import express from 'express';
 import sequelize from './config/database.js'; // Importer Sequelize
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { API_VERSION } from './../version.js'
-import { USER_ENDPOINT } from './routes/users.js'
+import { API_VERSION } from './../version.js';
+import usersRoutes, { USER_ENDPOINT } from './routes/users.js';
 import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = 'your-secret-key';
@@ -72,6 +72,8 @@ const swaggerOptions = {
 // Initialiser Swagger avec la configuration
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+usersRoutes(app);
 
 // Démarrer le serveur Express
 app.listen(API_PORT, () => {
