@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = 'your-secret-key';
 const API_PORT = process.env.API_PORT;
-const app = express();
+export const app = express();
 
 try {
   await sequelize.authenticate();
