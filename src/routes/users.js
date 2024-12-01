@@ -1,4 +1,4 @@
-import { app } from './../index'
+import { app } from '../index.js'
 
 const ALL_USER = '/api/users'
 const USER_BY_ID = '/api/users/{id}'
