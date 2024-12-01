@@ -84,8 +84,8 @@ if (process.env.NODE_ENV !== 'build') {
     console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
     console.log(`Version de l'API déployé : ${API_VERSION}`);
     console.log('Endpoints de l\'API :');
-    USER_ENDPOINT.forEach(([name, path]) => {
-      console.log(`- ${name}: ${path}`);
+    USER_ENDPOINT.forEach((endPoint) => {
+      console.log(`- ${endPoint}\n`);
     });
   });
 }
