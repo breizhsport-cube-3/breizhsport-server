@@ -83,6 +83,9 @@ if (process.env.NODE_ENV !== 'build') {
     console.log(`Serveur Express démarré sur http://localhost:${API_PORT}`);
     console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
     console.log(`Version de l'API déployé : ${API_VERSION}`);
-    console.log(`Endpoints de l'API : `, USER_ENDPOINT)
+    console.log('Endpoints de l\'API :');
+    USER_ENDPOINT.forEach(([name, path]) => {
+      console.log(`- ${name}: ${path}`);
+    });
   });
 }
