@@ -19,17 +19,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_USER: breizhsport
-          POSTGRES_PASSWORD: breizhsport
-          POSTGRES_DB: breizhsport
-        ports:
-          - "5432:5432"
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
