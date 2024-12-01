@@ -10,13 +10,15 @@ const SECRET_KEY = 'your-secret-key';
 const API_PORT = process.env.API_PORT;
 export const app = express();
 
-try {
-  await sequelize.authenticate();
-  console.log('Connection to postgres has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-  // Stop the api
-  process.exit(1);
+if (process.env.NODE_ENV !== 'build') {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to postgres has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    // Stop the api
+    process.exit(1);
+  }
 }
 
 // Synchroniser la base de données

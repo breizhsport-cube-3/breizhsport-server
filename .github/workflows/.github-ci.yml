@@ -15,6 +15,7 @@ env:
   DB_PORT: "5432"
   DB_LOCATION: "localhost"
   API_PORT: "3000"
+  NODE_ENV: "build"
 
 jobs:
   build:
