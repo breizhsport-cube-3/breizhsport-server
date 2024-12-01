@@ -78,9 +78,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 usersRoutes(app);
 
 // Démarrer le serveur Express
-app.listen(API_PORT, () => {
-  console.log(`Serveur Express démarré sur http://localhost:${API_PORT}`);
-  console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
-  console.log(`Version de l'API déployé : ${API_VERSION}`);
-  console.log(`Endpoints de l'API : `, USER_ENDPOINT)
-});
+if (process.env.NODE_ENV !== 'build') {
+  app.listen(API_PORT, () => {
+    console.log(`Serveur Express démarré sur http://localhost:${API_PORT}`);
+    console.log(`Swagger disponible sur http://localhost:${API_PORT}/api-docs`);
+    console.log(`Version de l'API déployé : ${API_VERSION}`);
+    console.log(`Endpoints de l'API : `, USER_ENDPOINT)
+  });
+}
