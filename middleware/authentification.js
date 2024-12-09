@@ -1,9 +1,8 @@
-
 import { User } from './../src/models/User.js'
 import jwt from 'jsonwebtoken'
 const API_SECRET_KEY = process.env.API_SECRET_KEY;
 
-const authentification = async (req, res, next) => {
+export const authentification = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -28,5 +27,3 @@ const authentification = async (req, res, next) => {
         res.status(401).json({ message: 'Token requis' });
     }
 }
-
-module.exports = authentification;
