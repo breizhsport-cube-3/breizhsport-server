@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
-const jwt = require('jsonwebtoken');
-const { User } = require('./../models/User');
+import jwt from 'jsonwebtoken';
+import { User } from './../models/User';
 const API_SECRET_KEY = process.env.API_SECRET_KEY;
 
 app.post('/login', async (req, res) => {
