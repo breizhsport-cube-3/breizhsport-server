@@ -1,4 +1,6 @@
 import { DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt'
+
 import sequelize from '../config/database.js';
 import Group from './Group.js';
 import Address from './Address.js';
@@ -27,6 +29,18 @@ export const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  isConfirmed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  confirmationToken: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  resetPasswordToken: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   phone_1: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -35,9 +49,13 @@ export const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  mail: {
+  email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true
+    }
   },
   remember_token: {
     type: DataTypes.STRING,
@@ -63,6 +81,11 @@ export const User = sequelize.define('User', {
       key: 'id',
     },
   }
+});
+
+User.beforeCreate(async (user) => {
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
 });
 
 // Exporter le modèle User comme export par défaut

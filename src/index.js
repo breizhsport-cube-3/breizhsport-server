@@ -62,15 +62,24 @@ const swaggerOptions = {
     info: {
       title: 'BreizhSport API',
       version: '1.0.0',
-      description: 'Documentation de l’API de BreizhSport',
-      servers: [
-        {
-          url: `http://localhost:${API_PORT}`,
-        },
-      ],
+      description: 'Documentation de l\'API de BreizhSport',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    servers: [
+      {
+        url: `http://localhost:${API_PORT}`,
+      },
+    ],
   },
-  apis: ['./src/routes/*.js'], // Spécifiez où Swagger doit chercher les annotations
+  apis: ['./src/routes/*.js'],
 };
 
 // Initialiser Swagger avec la configuration
