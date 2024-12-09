@@ -6,7 +6,6 @@ import { API_VERSION } from './../version.js';
 import usersRoutes, { USER_ENDPOINT } from './routes/users.js';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = 'your-secret-key';
 const API_PORT = process.env.API_PORT;
 export const app = express();
 
@@ -30,6 +29,9 @@ sequelize.sync({ force: true }) // force: true pour recréer les tables à chaqu
   console.error('Erreur de synchronisation de la base de données:', err);
 });
 
+// Middleware pour l'authentification
+const authentification = require('./../middleware/authentification.js')
+app.use(authentification)
 
 // Middleware pour analyser le JSON
 app.use(express.json());

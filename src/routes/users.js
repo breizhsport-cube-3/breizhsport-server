@@ -1,9 +1,11 @@
 const ALL_USER = '/api/users'
 const USER_BY_ID = '/api/users/{id}'
+const USER = '/api/user'
 
 export const USER_ENDPOINT = [
   `GET : ${ALL_USER}`, 
-  `GET : ${USER_BY_ID}`
+  `GET : ${USER_BY_ID}`,
+  `POST : ${USER}`
 ]
 
 export default (app) => {
@@ -73,5 +75,7 @@ export default (app) => {
       res.status(500).json({ error: 'Erreur interne au serveur' });
     }
   });
+
+  app.post(USER)
 }
 

@@ -4,7 +4,7 @@ import Group from './Group.js';
 import Address from './Address.js';
 
 // Définir un modèle User
-const User = sequelize.define('User', {
+export const User = sequelize.define('User', {
   // Définir les colonnes de la table
   id: {
     type: DataTypes.INTEGER,

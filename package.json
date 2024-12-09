@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.0",
