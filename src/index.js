@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import { API_VERSION } from './../version.js';
 import usersRoutes, { USER_ENDPOINT } from './routes/users.js';
 import jwt from 'jsonwebtoken';
+import authentification from './../middleware/authentification.js';
 
 const API_PORT = process.env.API_PORT;
 export const app = express();
@@ -30,7 +31,6 @@ sequelize.sync({ force: true }) // force: true pour recréer les tables à chaqu
 });
 
 // Middleware pour l'authentification
-const authentification = require('./../middleware/authentification.js')
 app.use(authentification)
 
 // Middleware pour analyser le JSON
